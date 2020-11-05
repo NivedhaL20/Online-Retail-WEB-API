@@ -1,29 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using OneMindIndia.Business.Interface;
 using OneMindIndia.DataAccess;
 using OneMindIndia.DataAccess.Entities;
 using OneMindIndia.DataModel;
 
 namespace OneMindIndia.Business.Services
 {
-    public class ProductService
+    public class ProductService : IProductService
     {
-        public Product GetById(Guid productId)
+        public DatabaseContext dbContext;
+        public ProductService(DatabaseContext databaseContext)
         {
-            using var dbContext = new DatabaseContext();
+            this.dbContext = databaseContext;
+        }
+
+        public Product GetById(Guid productId)
+        {            
             return dbContext.Products.FirstOrDefault(x => x.ProductId == productId);
         }
 
         public List<Product> GetAll()
-        {
-            using var dbContext = new DatabaseContext();
+        {            
             return dbContext.Products.ToList();
         }
 
         public bool AddProduct(ProductInputData productInputData)
-        {
-            using var dbContext = new DatabaseContext();
+        {            
             var pro = dbContext.Products.FirstOrDefault(x => x.ProductName == productInputData.ProductName);
             if (pro != null) throw new Exception("Product name already exists");
             var product = new Product()
@@ -38,8 +42,7 @@ namespace OneMindIndia.Business.Services
         }
 
         public bool EditProduct(Guid productId, ProductInputData updatedInputData)
-        {
-            using var dbContext = new DatabaseContext();
+        {            
             var product = dbContext.Products.FirstOrDefault(x => x.ProductId == productId);
             if (product == null) throw new Exception("Invalid Product Id");
             product.Quantity = (updatedInputData.Quantity != 0) ? updatedInputData.Quantity : product.Quantity;
@@ -50,8 +53,7 @@ namespace OneMindIndia.Business.Services
         }
 
         public bool DeleteProduct(Guid productId)
-        {
-            using var dbContext = new DatabaseContext();
+        {         
             var product = dbContext.Products.FirstOrDefault(x => x.ProductId == productId);
             if (product == null) throw new Exception("Invalid Product Id");
             dbContext.Products.Remove(product);

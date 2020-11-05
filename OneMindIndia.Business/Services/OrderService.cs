@@ -4,21 +4,26 @@ using System.Collections.Generic;
 using System.Linq;
 using OneMindIndia.DataAccess.Entities;
 using OneMindIndia.DataModel;
+using OneMindIndia.Business.Interface;
 
 namespace OneMindIndia.Business.Services
 {
-    public class OrderService
+    public class OrderService : IOrderService
     {
+        public DatabaseContext dbContext;
         private readonly Guid _customerId = Guid.Parse("fe7d6a2e-cd78-44db-8225-ebd1c1bc592f");
-        public Order GetById(Guid orderId)
+        public OrderService(DatabaseContext databaseContext)
         {
-            using var dbContext = new DatabaseContext();
+            this.dbContext = databaseContext;
+        }
+        
+        public Order GetById(Guid orderId)
+        {            
             return dbContext.Orders.FirstOrDefault(x => x.OrderId == orderId);
         }
 
         public List<Order> GetAll()
-        {
-            using var dbContext = new DatabaseContext();
+        {            
             return dbContext.Orders.ToList();
         }
         public bool AddOrder(OrderInputData orderInputData)
@@ -29,8 +34,7 @@ namespace OneMindIndia.Business.Services
                 ProductId = orderInputData.ProductId,
                 Quantity = orderInputData.Quantity,
                 CustomerId = _customerId
-            };
-            using var dbContext = new DatabaseContext();
+            };            
             dbContext.Orders.Add(order);
 
             var product = dbContext.Products.Find(order.ProductId);
@@ -48,8 +52,7 @@ namespace OneMindIndia.Business.Services
         }
 
         public bool CancelOrder(Guid orderId)
-        {
-            using var dbContext = new DatabaseContext();
+        {            
             var order = dbContext.Orders.FirstOrDefault(x => x.OrderId == orderId);
             if (order == null) throw new Exception("Order Id does not exist");
             order.IsCancelled = true;
