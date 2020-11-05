@@ -1,13 +1,12 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\OneMindIndia.Business\OneMindIndia.Business.csproj" />
     <ProjectReference Include="..\OneMindIndia.DataAccess\OneMindIndia.DataAccess.csproj" />
+    <ProjectReference Include="..\OneMindIndia.DataModel\OneMindIndia.DataModel.csproj" />
   </ItemGroup>
-
 
 </Project>
