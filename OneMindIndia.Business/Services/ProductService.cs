@@ -45,6 +45,10 @@ namespace OneMindIndia.Business.Services
         {            
             var product = dbContext.Products.FirstOrDefault(x => x.ProductId == productId);
             if (product == null) throw new Exception("Invalid Product Id");
+            
+            var pro = dbContext.Products.FirstOrDefault(x => x.ProductName == updatedInputData.ProductName);            
+            if(pro != null) throw new Exception("Product name already exists");
+
             product.Quantity = (updatedInputData.Quantity != 0) ? updatedInputData.Quantity : product.Quantity;
             product.ProductName = (updatedInputData.ProductName != null) ? updatedInputData.ProductName : product.ProductName;
             dbContext.Products.Update(product);
