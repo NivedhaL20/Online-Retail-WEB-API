@@ -16,7 +16,7 @@ namespace OneMindIndia.Business.Tests
         public IOrderService objOrderService;
         private IConfiguration _config;
 
-        public OrderServiceTest(DatabaseContext dbContext)
+        public OrderServiceTest()
         {
             var connection = Configuration.GetConnectionString("DefaultConnection");
             var options = new DbContextOptionsBuilder<DatabaseContext>().UseSqlServer(connection).Options;
