@@ -1,6 +1,7 @@
 ﻿
 using System;
 using OneMindIndia.Business.Services;
+using OneMindIndia.DataAccess;
 using OneMindIndia.DataModel;
 using Xunit;
 
@@ -8,10 +9,17 @@ namespace OneMindIndia.Business.Tests
 {
     public class OrderServiceTest
     {
+        public DatabaseContext dbContext;
+
+        public OrderServiceTest(DatabaseContext dbContext)
+        {
+            this.dbContext = dbContext;
+        }
+
         [Fact]
         public void TestAddOrderExpectException()
         {
-            var objOrderService = new OrderService();
+            var objOrderService = new OrderService(dbContext);
             var order = new OrderInputData()
             {
                 ProductId = Guid.Parse("95FEB320-49F1-4343-9DD3-0DB1521A4832"),
@@ -24,7 +32,7 @@ namespace OneMindIndia.Business.Tests
         [Fact]
         public void TestAddOrderExpectTrue()
         {
-            var objOrderService = new OrderService();
+            var objOrderService = new OrderService(dbContext);
             var order = new OrderInputData()
             {
                 ProductId = Guid.Parse("4A3AF1AA-B6BC-4F2E-85F1-7620672DB1E2"),
@@ -38,7 +46,7 @@ namespace OneMindIndia.Business.Tests
         [Fact]
         public void TestUpdateQuantityExpectTrue()
         {
-            var objOrderService = new OrderService();
+            var objOrderService = new OrderService(dbContext);
             var order = new OrderInputData()
             {
                 ProductId = Guid.Parse("4A3AF1AA-B6BC-4F2E-85F1-7620672DB1E2"),
@@ -52,7 +60,7 @@ namespace OneMindIndia.Business.Tests
         [Fact]
         public void TestUpdateQuantityExpectException()
         {
-            var objOrderService = new OrderService();
+            var objOrderService = new OrderService(dbContext);
             var order = new OrderInputData()
             {
                 ProductId = Guid.Parse("4A3AF1AA-B6BC-4F2E-85F1-7620672DB1E2"),
@@ -66,7 +74,7 @@ namespace OneMindIndia.Business.Tests
         [Fact]
         public void TestCancelExpectException()
         {
-            var objOrderService = new OrderService();
+            var objOrderService = new OrderService(dbContext);
             var order = new OrderInputData()
             {
                 ProductId = Guid.Parse("4A3AF1AA-B6BC-4F2E-85F1-7620672DB1E2"),

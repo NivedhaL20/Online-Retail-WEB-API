@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using OneMindIndia.Business.Interface;
 using OneMindIndia.Business.Services;
 using OneMindIndia.DataModel;
 using Xunit;
@@ -8,10 +9,16 @@ namespace OneMindIndia.Business.Tests
 {
     public class ProductServiceTest
     {
+        public IProductService objProductService;
+
+        public ProductServiceTest(IProductService productService)
+        {
+            this.objProductService = productService;
+        }
+
         [Fact]
         public void TestAddProductExpectException()
-        {
-            var objProductService = new ProductService();
+        {           
             var product = new ProductInputData()
             {
                 ProductId = Guid.NewGuid(),
@@ -23,8 +30,7 @@ namespace OneMindIndia.Business.Tests
 
         [Fact]
         public void TestGetProductExpectTrue()
-        {
-            var objProductService = new ProductService();
+        {            
             var products = objProductService.GetAll();
             var product = products.Where(x => x.ProductId != Guid.Empty);
             Assert.True(product != null);
@@ -38,8 +44,7 @@ namespace OneMindIndia.Business.Tests
                 ProductId = Guid.NewGuid(),
                 ProductName = "Product for test",
                 Quantity = 10
-            };
-            var objProductService = new ProductService();
+            };            
             Assert.Throws<Exception>(() => objProductService.EditProduct(product.ProductId, product));
         }
 
@@ -51,8 +56,7 @@ namespace OneMindIndia.Business.Tests
                 ProductId = Guid.NewGuid(),
                 ProductName = "Product for test",
                 Quantity = 10
-            };
-            var objProductService = new ProductService();
+            };            
             Assert.Throws<Exception>(() => objProductService.DeleteProduct(product.ProductId));
         }
     }
