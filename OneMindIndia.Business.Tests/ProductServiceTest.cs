@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using OneMindIndia.Business.Interface;
 using OneMindIndia.Business.Services;
+using OneMindIndia.DataAccess;
 using OneMindIndia.DataModel;
 using Xunit;
 
@@ -10,15 +13,33 @@ namespace OneMindIndia.Business.Tests
     public class ProductServiceTest
     {
         public IProductService objProductService;
-
-        public ProductServiceTest(IProductService productService)
+        public DatabaseContext dbContext;        
+        private IConfiguration _config;
+        public ProductServiceTest()
         {
-            this.objProductService = productService;
+            var connection = Configuration.GetConnectionString("DefaultConnection");
+            var options = new DbContextOptionsBuilder<DatabaseContext>().UseSqlServer(connection).Options;
+            this.dbContext = new DatabaseContext(options);
+            this.objProductService = new ProductService(dbContext);                        
+        }
+
+        public IConfiguration Configuration
+        {
+            get
+            {
+                if (_config == null)
+                {
+                    var builder = new ConfigurationBuilder().AddJsonFile($"appsettings.json", optional: false);
+                    _config = builder.Build();
+                }
+
+                return _config;
+            }
         }
 
         [Fact]
         public void TestAddProductExpectException()
-        {           
+        {            
             var product = new ProductInputData()
             {
                 ProductId = Guid.NewGuid(),

@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OneMindIndia.API", "OneMindIndia.API\OneMindIndia.API.csproj", "{C95582A8-1425-4777-A6A3-226DD9648BC3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OneMindIndia.Business.Tests", "OneMindIndia.Business.Tests\OneMindIndia.Business.Tests.csproj", "{F0C70820-1EB0-4A33-BD44-281CECB87784}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C95582A8-1425-4777-A6A3-226DD9648BC3} = {C95582A8-1425-4777-A6A3-226DD9648BC3}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OneMindIndia.Business", "OneMindIndia.Business\OneMindIndia.Business.csproj", "{CCDEB770-70FA-460F-A1C7-02EA139981BD}"
 EndProject
