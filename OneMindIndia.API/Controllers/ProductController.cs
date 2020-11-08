@@ -48,8 +48,12 @@ namespace OneMindIndia.API.Controllers
         // PUT api/<ProductController>/5
         [HttpPut("{productId}")]
         public bool Edit(Guid productId, [FromBody] ProductInputData editData)
-        {            
-            return product.EditProduct(productId, editData);
+        {
+            if (editData.Quantity >= 0 && editData.ProductName != null)
+            {
+                return product.EditProduct(productId, editData);
+            }
+            throw new Exception("Please enter the Product Name and Quantity should be greater than or equal to 0");
         }
 
         // DELETE api/<ProductController>/5

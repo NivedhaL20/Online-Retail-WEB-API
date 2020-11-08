@@ -48,8 +48,12 @@ namespace OneMindIndia.API.Controllers
         // PUT api/<OrderController>/5
         [HttpPut("{orderId}")]
         public bool Update(Guid orderId, [FromBody] OrderInputData inputData)
-        {            
-            return order.UpdateOrderQuantity(orderId, inputData);
+        {
+            if (inputData.Quantity > 0)
+            {
+                return order.UpdateOrderQuantity(orderId, inputData);
+            }
+            throw new Exception("Please enter the Quantity which should be greater than 0");
         }
 
         // DELETE api/<OrderController>/5
